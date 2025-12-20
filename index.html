@@ -1,157 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aarón Alcaide</title>
-    <link rel="icon" type="image/png" href="files/thedehron-favicon.png">
-
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         body {
-            background-color: black;
-            color: green;
-            font-family: monospace;
-            font-size: 15px;
-            margin: 0;
-            padding: 10px;
-        }
-
-        #loading-screen {
-            padding-left: 20px;
-            padding: 10px;
-        }
-
-        #map {
+            background-color: white;
+            color: black;
+            font-family: Arial;
             display: flex;
-            flex-direction: column;
-            gap: 2px;
-            padding: 10px;
-            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
-
-        #terminal {
-            white-space: pre-line;
-            padding-left: 20px;
-            margin-top: 10px;
-            display: none;
+        p {
+            max-width: 800px;
+            font-size: 2em;
+            letter-spacing: -2px;
+            margin: 0 20px; 
         }
-
         a {
-            text-decoration: underline dotted;
-            color: green; 
-            cursor: pointer;
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
         }
-
-        .folder {
-            padding-left: 20px;
+        .inverted {
+            background-color: black;
+            color: white;
         }
-
-        .file:hover {
-            color: lightgreen;
+        .inverted a {
+            color: white;
+        }
+        @media (max-width: 600px) {
+            p {
+                font-size: 1.4em; 
+                margin: 0 15px; 
+            }
         }
     </style>
 </head>
 <body>
-    <div id="loading-screen">
-        <div id="loading-status" style="white-space: nowrap;"></div>
-    </div>
-
-    <div id="map">
-        <div>root/</div>
-        <div class="folder">├── home/</div>
-        <div class="folder">│ ㅤ  ├── user/</div>
-        <div class="folder">│ ㅤ  │ ㅤ  ├── documents/</div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     └── ...</div>
-        <div class="folder">│ ㅤ  │ ㅤ  ├── downloads/</div>
-        <div class="folder">│ ㅤ  │ ㅤ  │   └── <a href="files/consecuencias-del-dehron.rar" class="zip-file">consecuencias-del-dehron.rar/</a></div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── <a href="files/relato1-encuentro-unico.pdf"> encuentro-unico.pdf </a></div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── <s>nU`DL_D72mº.wav</s></div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── <s>pI.tD/a-!l-)`eo.wav</s></div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── <s>s..Bz-a-eFpºe_a.wav</s></div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     └── ...</div>
-        <div class="folder">│ ㅤ  │ ㅤ  ├── shared/</div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── <a href="/files/el-precio-del-conocimiento.pdf">el-precio-del-conocimiento.pdf</a></div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── ...</div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     └── ...</div>
-        <div class="folder">│ ㅤ  │ ㅤ  ├── images/</div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ     ├── ...</div>
-        <div class="folder">│ ㅤ  │ ㅤ  │ ㅤ  └── ...</div>
-    </div>
-
-    <div id="terminal">
-        root@localhost:~$ 
-    </div>
+   <p>
+    Aarón Alcaide es autor de <a href="https://youtu.be/Gv_l1V1y5Fo?si=oRWdjaPEOkgPzPFQ" target="_blank">Alma Irreal</a> y
+    <a href="https://youtu.be/Gv_l1V1y5Fo?si=oRWdjaPEOkgPzPFQ" target="_blank">Mi Vida Fuera</a>.
 
     <script>
-        const loadingStatus = document.getElementById("loading-status");
-        const loadingMessages = ["root@localhost:~$ Welcome back..."];
-        const loadingSymbols = ['|', '/', '-', '\\'];
+        const links = document.querySelectorAll('p a');
+        const body = document.body;
 
-        let symbolIndex = 0;
-        let messageIndex = 0;
-        let loadingText = "root@localhost:~$ ";
-        let progressText = "";
-
-        function updateLoadingStatus() {
-            progressText = loadingText + loadingSymbols[symbolIndex];
-            loadingStatus.textContent = progressText;
-            symbolIndex = (symbolIndex + 1) % loadingSymbols.length;
-        }
-
-        function updateMessage() {
-            if (messageIndex < loadingMessages.length) {
-                loadingText = loadingMessages[messageIndex];
-                messageIndex++;
-            }
-        }
-
-        function startLoading() {
-            updateMessage();
-            const interval = setInterval(() => {
-                updateLoadingStatus();
-                if (progressText.includes('\\')) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('loading-screen').style.display = 'none';
-                        document.getElementById('map').style.display = 'flex';
-                        document.getElementById('terminal').style.display = 'block'; // Aparece después de la animación
-                    }, 2000);
-                }
-            }, 200);
-        }
-
-        startLoading();
-
-        const zipLinks = document.querySelectorAll('.zip-file');
-        const terminal = document.getElementById('terminal');
-
-        zipLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const fileName = link.textContent.replace('/', '');
-                
-                terminal.textContent = "root@localhost:~$ ";
-
-                const message = `./${fileName}\nPermission denied.`;
-                let index = 0;
-
-                const typing = setInterval(() => {
-                    terminal.textContent += message.charAt(index);
-                    index++;
-                    if(index >= message.length) {
-                        clearInterval(typing);
-                        setTimeout(() => {
-                            terminal.textContent = "root@localhost:~$ ";
-                        }, 3000);
-                    }
-                }, 50);
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                body.classList.add('inverted'); 
+            });
+            link.addEventListener('mouseleave', () => {
+                body.classList.remove('inverted'); 
             });
         });
     </script>
 </body>
 </html>
-
-
-
 
 
