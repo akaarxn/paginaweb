@@ -1,81 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aarón Alcaide</title>
-    <link rel="icon" type="image/png" href="files/thedehron-favicon.png">
-    <style>
-        body {
-            background-color: white;
-            color: black;
-            font-family: Arial;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        p {
-            max-width: 800px;
-            font-size: 2em;
-            letter-spacing: -2px;
-            margin: 0 20px; 
-        }
-        a {
-            color: black;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .inverted {
-            background-color: black;
-            color: white;
-        }
-        .inverted a {
-            color: white;
-        }
-        @media (max-width: 600px) {
-            p {
-                font-size: 1.4em; 
-                margin: 0 15px; 
-            }
-        }
-    </style>
-</head>
-<body>
-   <p>
-    ...de Aarón Alcaide puedes leer <a href="https://youtu.be/3_Z2BBn6CQU?si=y7GEbDhoocEpcStj" target="_blank">Mi Vida Fuera</a>, 
-       <a href="https://youtu.be/Gv_l1V1y5Fo?si=oRWdjaPEOkgPzPFQ" target="_blank">Alma Irreal</a>, 
-    y cuentos o relatos como <a href="files/EL PRECIO DEL CONOCIMIENTO. Aarón Alcaide.pdf" target="_blank">el Precio del Conocimiento</a>, 
-       <a href="files/Relato Nº1. Encuentro Único. (VOCES del DEHRON). Aarón Alcide.pdf" target="_blank">Encuentro Único</a>, 
-       <a href="files/Relato Nº2. Nunca amaneció. (VOCES del DEHRON). Aarón Alcide.pdf" target="_blank">Nunca Amaneció</a>, 
-       <a href="files/Esperanza a la Deriva. Aarón Alcaide.pdf" target="_blank">Esperanza a la Deriva</a>, 
-       <a href="files/Eclipse de Oro. Aarón Alcaide.pdf" target="_blank">Eclipse de Oro</a>, 
-       <a href="files/Preludio. Aarón Alcaide.pdf" target="_blank">Preludio</a>...
-    
-    <script>
-        const links = document.querySelectorAll('p a');
-        const body = document.body;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aarón Alcaide</title>
+<link rel="icon" type="image/png" href="files/thedehron-favicon.png">
 
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                body.classList.add('inverted'); 
-            });
-            link.addEventListener('mouseleave', () => {
-                body.classList.remove('inverted'); 
-            });
-        });
-    </script>
+<style>
+body {
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    line-height: 1.6;
+    transition: color 0.3s;
+    overflow: hidden;
+}
+
+body.bg-active {
+    animation: zoomBg 20s ease-in-out forwards;
+}
+
+@keyframes zoomBg {
+    from { background-size: 100%; }
+    to { background-size: 110%; }
+}
+
+p {
+    max-width: 800px;
+    font-size: 2em;
+    letter-spacing: -2px;
+    position: relative;
+    z-index: 2;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+body.inverted {
+    color: white;
+}
+
+body.inverted a {
+    color: white;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 1;
+}
+
+body.inverted::before {
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    p {
+        font-size: 1.4em;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<p>
+...de Aarón Alcaide puedes leer 
+<a href="https://youtu.be/3_Z2BBn6CQU?si=y7GEbDhoocEpcStj" target="_blank">Mi Vida Fuera</a>, 
+<a href="https://youtu.be/Gv_l1V1y5Fo?si=oRWdjaPEOkgPzPFQ" target="_blank">Alma Irreal</a>, 
+y cuentos o relatos como 
+<a href="files/EL PRECIO DEL CONOCIMIENTO. Aarón Alcaide.pdf" target="_blank">el Precio del Conocimiento</a>, 
+<a href="files/Relato Nº1. Encuentro Único.pdf" target="_blank">Encuentro Único</a>, 
+<a href="files/Relato Nº2. Nunca amaneció.pdf" target="_blank">Nunca Amaneció</a>, 
+<a href="files/Esperanza a la Deriva.pdf" target="_blank">Esperanza a la Deriva</a>, 
+<a href="files/Eclipse de Oro.pdf" target="_blank">Eclipse de Oro</a>, 
+<a href="files/Preludio.pdf" target="_blank">Preludio</a>...
+</p>
+
+<script>
+const links = document.querySelectorAll('p a');
+const body = document.body;
+const totalImages = 8;
+let lastImage = null;
+let active = false;
+
+function randomImage() {
+    let img;
+    do {
+        img = Math.floor(Math.random() * totalImages) + 1;
+    } while (img === lastImage);
+    lastImage = img;
+    return img;
+}
+
+function activateBackground() {
+    if (!active) {
+        const img = randomImage();
+        body.style.backgroundImage = `url('files/img_fondo/${img}.webp')`;
+        body.classList.add('inverted', 'bg-active');
+        active = true;
+    }
+}
+
+function deactivateBackground() {
+    body.style.backgroundImage = '';
+    body.classList.remove('inverted', 'bg-active');
+    active = false;
+}
+
+links.forEach(link => {
+    link.addEventListener('mouseenter', activateBackground);
+});
+
+document.querySelector('p').addEventListener('mouseleave', deactivateBackground);
+
+links.forEach(link => {
+    link.addEventListener('touchstart', activateBackground, { passive: true });
+});
+
+document.body.addEventListener('touchstart', (e) => {
+    if (!e.target.closest('a')) {
+        deactivateBackground();
+    }
+});
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
