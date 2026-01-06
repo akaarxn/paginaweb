@@ -9,9 +9,6 @@
 <style>
 body {
     background-color: white;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     font-family: Arial;
     color: black;
     display: flex;
@@ -22,17 +19,24 @@ body {
     padding: 20px;
     text-align: center;
     line-height: 1.6;
-    transition: color 0.3s;
     overflow: hidden;
 }
 
-body.bg-active {
-    animation: zoomBg 20s ease-in-out forwards;
+/* Fondo con imagen */
+#bg {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 20s ease;
+    z-index: 0;
 }
 
-@keyframes zoomBg {
-    from { background-size: 100%; }
-    to { background-size: 110%; }
+#bg.active {
+    opacity: 0.15;
+    transform: scale(1.1);
 }
 
 p {
@@ -59,6 +63,7 @@ body.inverted a {
     color: white;
 }
 
+/* Capa oscura para legibilidad */
 body::before {
     content: "";
     position: fixed;
@@ -83,6 +88,8 @@ body.inverted::before {
 
 <body>
 
+<div id="bg"></div>
+
 <p>
 ...de Aarón Alcaide puedes leer 
 <a href="https://youtu.be/3_Z2BBn6CQU?si=y7GEbDhoocEpcStj" target="_blank">Mi Vida Fuera</a>, 
@@ -99,6 +106,7 @@ y cuentos o relatos como
 <script>
 const links = document.querySelectorAll('p a');
 const body = document.body;
+const bg = document.getElementById('bg');
 const totalImages = 8;
 let lastImage = null;
 let active = false;
@@ -115,24 +123,27 @@ function randomImage() {
 function activateBackground() {
     if (!active) {
         const img = randomImage();
-        body.style.backgroundImage = `url('files/img_fondo/${img}.webp')`;
-        body.classList.add('inverted', 'bg-active');
+        bg.style.backgroundImage = `url('files/img_fondo/${img}.webp')`;
+        bg.classList.add('active');
+        body.classList.add('inverted');
         active = true;
     }
 }
 
 function deactivateBackground() {
-    body.style.backgroundImage = '';
-    body.classList.remove('inverted', 'bg-active');
+    bg.classList.remove('active');
+    body.classList.remove('inverted');
     active = false;
 }
 
+/* Desktop */
 links.forEach(link => {
     link.addEventListener('mouseenter', activateBackground);
 });
 
 document.querySelector('p').addEventListener('mouseleave', deactivateBackground);
 
+/* Móvil */
 links.forEach(link => {
     link.addEventListener('touchstart', activateBackground, { passive: true });
 });
