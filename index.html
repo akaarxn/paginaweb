@@ -104,14 +104,8 @@ html, body {
 /* RIGHT SCROLL AREA */
 
 .right {
-  height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
   scroll-behavior: smooth;
-}
-
-/* iPhone smooth scroll feel */
-.right {
-  -webkit-overflow-scrolling: touch;
 }
 
 /* CONTENT SECTIONS */
@@ -186,17 +180,11 @@ html, body {
   color: var(--muted);
 }
 
+/* Simplified block style: no scroll animation */
 .block {
-  opacity: 0;
-  transform: translateY(30px) scale(.98);
-  filter: blur(6px);
-  transition: opacity .7s ease, transform .7s ease, filter .7s ease;
-}
-
-.block.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
+  transform: none;
+  filter: none;
 }
 
 .block-title {
@@ -219,9 +207,6 @@ html, body {
   transition: width .6s ease;
 }
 
-.block.visible .block-title::after {
-  width: 100%;
-}
 
 /* Lists */
 
@@ -315,12 +300,12 @@ html, body {
 }
 
 .text-reader-sheet {
-  width: min(92vw, 680px);
-  height: min(88vh, 900px);
+  width: min(94vw, 1000px);
+  height: min(92vh, 1000px);
   background: #ffffff;
   border-radius: 4px;
   box-shadow: 0 50px 120px rgba(0,0,0,.35);
-  padding: 4rem 4.2rem;
+  padding: 3.2rem 5rem;
   overflow-y: auto;
   transform: translateY(24px) scale(.96);
   transition: transform .28s ease;
@@ -332,10 +317,11 @@ html, body {
 
 .text-reader-title {
   font-family: "Libre Baskerville", serif;
-  font-size: 1.4rem;
-  letter-spacing: .06em;
+  font-size: 1.6rem;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  margin-bottom: .6rem;
+  text-align: center;
+  margin-bottom: 2.2rem;
 }
 
 .text-reader-project {
@@ -343,15 +329,16 @@ html, body {
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 2.4rem;
+  margin-bottom: 3rem;
+  text-align: center;
 }
 
 .text-reader-content {
   font-family: "Libre Baskerville", serif;
-  font-size: 1.12rem;
-  line-height: 1.9;
+  font-size: 1rem;
+  line-height: 1.85;
   color: #111;
-  max-width: 60ch;
+  max-width: 72ch;
   margin: 0 auto;
   text-align: justify;
   hyphens: auto;
@@ -448,7 +435,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   border-radius: 0;
-  padding: 8vh 12vw;
+  padding: 6vh 14vw;
   background: #111;
   color: #eee;
   box-shadow: none;
@@ -634,6 +621,40 @@ a:hover {
 
 /* Footer */
 
+/* ===== CORTOMETRAJES ===== */
+
+.films-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  max-width: 900px;
+}
+
+.film-card {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  cursor: pointer;
+}
+
+.film-cover {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0;
+  border: 1px solid var(--line);
+  transition: none;
+}
+
+
+
+.film-title {
+  font-size: .9rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
 .footer {
   font-size: .72rem;
   color: var(--muted);
@@ -789,14 +810,11 @@ a:hover {
 
 
 .book-status {
-  font-size: .6rem;
-  letter-spacing: .28em;
+  font-size: .62rem;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: #2e9e63;
-  margin-left: .8rem;
-  vertical-align: middle;
-  position: relative;
-  top: -2px;
+  margin-top: .4rem;
 }
 
 .book-buy {
@@ -897,9 +915,23 @@ a:hover {
   .book-modal-cover {
     height: 280px;
   }
+
+  .text-reader-sheet {
+    width: 100vw;
+    height: 100vh;
+    padding: 3rem 2.2rem;
+    border-radius: 0;
+  }
+
+  .text-reader-content {
+    font-size: 1.02rem;
+    max-width: 100%;
+  }
 }
 body.modal-open {
   overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 </style>
 </head>
@@ -952,7 +984,6 @@ body.modal-open {
             </div>
           </div>
 
-
         </div>
       </section>
 
@@ -961,9 +992,23 @@ body.modal-open {
 
         <div class="list">
           <div class="item">Exposición Arte Literario 2026 — En proceso</div>
+          <div class="item">DEVENIR — álbum conceptual (Próximamente)</div>
           <div class="item">
-            <a href="https://thedehron.com" target="_blank">El DEhRON</a>
+            <a href="https://thedehron.com" target="_blank">El DEhRON — En proceso</a>
           </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="block-title">Cortometrajes</div>
+
+        <div class="films-list">
+
+<div class="film-card" data-film="ruido">
+            <img src="cortometrajes/ruido-y-silencio_portada2.jpg" alt="Portada cortometraje" class="film-cover">
+            <div class="film-title">Ruido y Silencio</div>
+          </div>
+
         </div>
       </section>
 
@@ -1146,6 +1191,7 @@ que la vida satírica.
         </div>
       </section>
 
+
       <section class="block">
         <div class="block-title">Contacto</div>
         <div class="list">
@@ -1168,9 +1214,9 @@ que la vida satírica.
     <img src="portada_almairreal.jpg" alt="Portada Alma Irreal" class="book-modal-cover">
     <div class="book-modal-body">
       <div class="book-modal-head">
-        <div class="book-modal-title">
-          ALMA IRREAL
-          <span class="book-status">Publicado</span>
+        <div>
+          <div class="book-modal-title">ALMA IRREAL</div>
+          <div class="book-status">Publicado</div>
         </div>
       </div>
 
@@ -1213,9 +1259,9 @@ Axel siempre se preguntó por qué el alma desaparece cuando morimos. No le bast
     <img src="portada_mividafuera.jpg" alt="Portada Mi vida fuera" class="book-modal-cover">
     <div class="book-modal-body">
       <div class="book-modal-head">
-        <div class="book-modal-title">
-          MI VIDA FUERA
-          <span class="book-status">Publicado</span>
+        <div>
+          <div class="book-modal-title">MI VIDA FUERA</div>
+          <div class="book-status">Publicado</div>
         </div>
       </div>
 
@@ -1270,14 +1316,52 @@ Visualicé, con una claridad casi perturbadora, un mundo que era un reflejo impe
   </div>
 </div>
 
-<script>
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add("visible");
-  });
-}, { threshold: .2 });
+<div class="book-modal" id="modal-ruido">
+  <div class="book-modal-card">
+    <div class="book-modal-close" data-book-close>✕</div>
+    <img src="cortometrajes/ruido-y-silencio_portada2.jpg" 
+         alt="Ruido y Silencio" 
+         class="book-modal-cover">
 
-document.querySelectorAll(".block").forEach(el => observer.observe(el));
+    <div class="book-modal-body">
+      <div class="book-modal-head">
+        <div>
+          <div class="book-modal-title">RUIDO Y SILENCIO</div>
+          <div class="book-status">Cortometraje · 2026</div>
+        </div>
+      </div>
+
+      <div class="book-section-label">Sinopsis</div>
+      <div class="book-modal-text">
+        Un espacio detenido entre el ruido y el silencio. 
+        Una presencia que resiste mientras el sonido se fragmenta 
+        y la ausencia se vuelve protagonista. 
+        Una pieza breve sobre tensión, espera y vacío.
+      </div>
+      <div class="book-section-label">Especificaciones</div>
+      <div class="book-modal-text">
+        Dirección y guión — Aarón Alcaide<br>
+        Montaje y diseño sonoro — Aarón Alcaide<br>
+        Narración — Ángel Nacar<br>
+        Duración — 1 minuto<br>
+        Formato — 4:3
+      </div>
+
+      <div class="book-modal-meta">
+        <div>Género — Experimental</div>
+        <div>Estado — Finalizado</div>
+      </div>
+
+      <div class="book-buy">
+        <a href="https://youtu.be/BGuRNhcpWsI" target="_blank">
+          Ver en YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
 
 const avatarThumb = document.getElementById("avatarThumb");
 const avatarModal = document.getElementById("avatarModal");
@@ -1399,6 +1483,10 @@ document.querySelectorAll("[data-reader]").forEach(el => {
       textReaderContent.innerHTML = paragraphs;
     }
 
+    // reset scroll & progress every time a text opens
+    textReaderSheet.scrollTop = 0;
+    readerProgress.style.width = "0%";
+
     textReader.classList.add("entering");
     requestAnimationFrame(() => {
       textReader.classList.add("open");
@@ -1467,8 +1555,20 @@ textReaderSheet.addEventListener("scroll", () => {
   const percent = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
   readerProgress.style.width = percent + "%";
 });
-</script>
 
+document.querySelectorAll("[data-film]").forEach(card => {
+  card.addEventListener("click", () => {
+    const key = card.dataset.film;
+    const modal = document.getElementById("modal-" + key);
+    if (modal) {
+      modal.classList.add("open");
+      document.body.classList.add("modal-open");
+    }
+  });
+});
+
+
+</script>
 
 </body>
 </html>
